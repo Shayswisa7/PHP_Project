@@ -1,0 +1,55 @@
+
+body{
+    background-image: url("pik.jpg");
+}
+td{
+    border: 1px solid black;
+    border-radius: 7px;
+    width: auto;
+    color: white;
+}
+h1{
+    color: black;
+}
+a{
+    background-color:darkred;
+     border: 1px solid black;
+    border-radius: 7px;
+    width: auto;
+    color: rgb(245, 102, 102);
+}
+.h1{
+    z-index:2;
+    background-color:LightSlateGray;
+    border: 5px outset rgb(255, 0, 0); 
+    border-radius:15px; 
+    position:absolute;
+    height: 40px;
+    width: 200px;
+    left:765px;
+    top:78px;
+    bottom:0;
+    right:0;
+    text-align: center;
+}
+div{
+    z-index:1;
+    background-color:LightSlateGray;
+    border: 5px outset DarkRed; 
+    border-radius:15px; 
+    position:absolute;
+    height: 480px;
+    width: 400px;
+    left:0;
+    top:0;
+    bottom:0;
+    right:0;
+    margin:auto;
+    text-align: center;
+}
+tr{
+    text-align: center;
+}
+tr:hover{
+    background-color: SlateGray;
+}

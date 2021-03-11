@@ -1,87 +1,59 @@
 <?php
-include "ObjectMysqli.php";
-$mysqli= new mysql();
-date_default_timezone_set("Asia/Jerusalem");
-$_GET["start"] =date("H:i");
-$_GET["time"] =date("l"); 
-$_GET["allDay"] =isset($_GET["allDay"])?"True":"False";
-echo "<h1 style='color:LightSlateGray; right:500px;'>".date("H:i")."<br/>";
-if(isset($_GET['end'])){
-$result= $mysqli->insertNewSetting($_GET);
-if($result){
-    echo "<h1>בוצע</h1>";
-  }
-  else{
-      echo "<h1>לא בוצע</h1>";
-  }
+include "ObjectMysqli.php";                                                    //Create a include for craeting connection object to data baes
+$mysqli= new mysql();                                                          //Create a connection to database 
+date_default_timezone_set("Asia/Jerusalem");                                   //Get time zone
+$sum=0;
+    if(isset($_GET['end']))
+    $sum+=15;
+    if(isset($_GET['end1']))
+    $sum+=30;
+    if(isset($_GET['end2']))
+    $sum+=60;
+    if(isset($_GET['end3']))
+    $sum+=120;
+$_GET["start"] =date("H:i");                                                   //Default value .The time now
+$_GET["time"] =date("l");                                                      //Default value The dayname now
+$_GET["allDay"] =isset($_GET["allDay"])?"True":"False";                        //Difeult value for the option AllDay is false 
+echo "<h1 style='color:LightSlateGray; right:500px;'>".date("H:i")."<br/>";    //Display Current date when the user choose the time
+if($sum>0){                                                                    //Check if $GET['end'] is not empty
+    $_GET['end']=date("H:i",strtotime("+".$sum."minutes"));
+    $result= $mysqli->insertNewSetting($_GET);                                 //Insert into the database all the value then in array $GET
+    if($result){                                                               //Check if the query is complete
+        echo "<h1>בוצע</h1>";
+    }
+  
 }
+    else if(isset($_GET['butt'])){                                                                      //show an error
+        echo "<h1>לא בוצע</h1>";
+    }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html  lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSSPage.css">
     <title>Document</title>
-    <style>
-    body{
-        background: url('pik.jpg');
-    }
-    td{
-        border: 1px solid black;
-        width: 20px;
-        color: white;
-    }
-    h1{
-        color: black;
-    }
-    .f{
-        color: white;
-    }
-    .h1{
-        z-index:2;
-        background-color:LightSlateGray;
-        border: 5px outset red; 
-        border-radius:15px; 
-        position:absolute;
-        height: 40px;
-        width: 200px;
-        left:765px;
-        top:185px;
-        bottom:0;
-        right:0;
-        text-align: center;
-    }
-    div{
-        z-index:1;
-        background-color:LightSlateGray;
-        border: 5px outset DarkRed; 
-        border-radius:15px; 
-        position:absolute;
-        height: 300px;
-        width: 250px;
-        left:0;
-        top:0;
-        bottom:0;
-        right:0;
-        margin:auto;
-        text-align: center;
-    }
-    </style>
 </head>
 <body >
-<h1 class='h1' align='center'>שעון שבת</h1>
+<h1 class='h1' align='center'>Shabat Clock</h1>
 <div class='odd' ></div>
 <div>
       <form method="get" action="">
-      <h1>:שעת סיום</h1>
-      <input type='time' name="end" value=""/>
+      <h1>Range:</h1>
+      <input type='checkbox' name="end" value="1"/>15 min
+      <input type='checkbox' name="end1" value="2"/>30 min
+      <input type='checkbox' name="end2" value="3"/>60 min 
+      <input type='checkbox' name="end3" value="4" />120 min
       <hr/>
-      <button>בצע</button>
+      <button style="background-color: rgb(91, 187, 91); border-radius: 5px;" name="butt">Send</button>
       </form>
       <tbody>
-      <a href='AllSetting.php'>לכל ההגדרות</a>
-      <a href='IsActive.php'>סטטוס</a>
-      <a href='Custom.php'>ההזנה רגילה</a>
+      <a href='AllSetting.php'>All Settings</a>
+      <a href='IsActive.php'>Is Active</a>
+      <a href='Custom.php'>Custom</a>
+      <a href='StartPage.php'>Start Page</a>
       </tbody>
         </div>
 </body>

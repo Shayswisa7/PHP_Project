@@ -1,104 +1,62 @@
 <?php
-  include "ObjectMysqli.php";
-  $mysqli= new mysql();
-  date_default_timezone_set("Asia/Jerusalem");
-  $_GET["allDay"] =isset($_GET["allDay"])?"True":"False";
-  echo "<h1 style='color:LightSlateGray; right:500px;'>".date("H:i")."<br/>";
-  $timeNow=date("Y-m-d");
-  if(!empty($_GET['time']) && $_GET['time']>=$timeNow){
-   $result= $mysqli->insertNewSetting($_GET);
-  if($result){
+  include "ObjectMysqli.php";                                                 //Create a include for craeting connection object to data baes
+  $mysqli= new mysql();                                                       //Create a connection to database 
+  date_default_timezone_set("Asia/Jerusalem");                                //Get time zone
+  $_GET["allDay"] =isset($_GET["allDay"])?"True":"False";                     //Difeult value for the option AllDay is false 
+  echo "<h1 style='color:LightSlateGray; right:500px;'>".date("H:i")."<br/>"; //Display Current date when the user choose the time
+  if(!(empty($_GET['time']) || empty($_GET['start']) || empty($_GET['end']))){//Check that the user did not leave details
+   $result= $mysqli->insertNewSetting($_GET);                                 //Insert into the database all the value then in array $GET
+  if($result){                                                                //Check if the query is complete
       echo "<h1>בוצע</h1>";
   }
   else{
       echo "<h1>לא בוצע</h1>";
   }
 }
+  else if(isset($_GET['start'])) {                                            //A test that actually showed an error
+    echo "<h1>לא בוצע</h1>";
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSSPage.css">
     <title>Document</title>
-    <style>
-    body{
-        background: url('pik.jpg');
-
-    }
-    td{
-        border: 1px solid black;
-        width: 20px;
-        color: white;
-    }
-    h1{
-        color: black;
-    }
-    .f{
-        color: white;
-    }
-    .h1{
-        z-index:2;
-        background-color:LightSlateGray;
-        border: 5px outset red; 
-        border-radius:15px; 
-        position:absolute;
-        height: 40px;
-        width: 200px;
-        left:767px;
-        top:98px;
-        bottom:0;
-        right:0;
-        text-align: center;
-    }
-    div{
-        z-index:1;
-        background-color:LightSlateGray;
-        border: 5px outset DarkRed; 
-        border-radius:15px; 
-        position:absolute;
-        height: 480px;
-        width: 250px;
-        left:0;
-        top:0;
-        bottom:0;
-        right:0;
-        margin:auto;
-        text-align: center;
-    }
-    </style>
 </head>
-<body id='body'>
-<h1 class='h1' align='center'>שעון שבת</h1>
-<div class='odd' ></div>
+<body>
+<h1 class='h1' align='center'>Shabat Clock</h1>
 <div>
-      <h1>יום בשבוע</h1>
+      <h1>Day:</h1>
       <form method="get" action="">
       <select type='date' name="time" value=""> 
-      <option value="Sunday">ראשון</option>
-      <option value="Monday">שני</option>
-      <option value="Tuesday">שלישי</option>
-      <option value="Wednesday">רביעי</option>
-      <option value="Thursday">חמישי</option>
-      <option value="Friday">שישי</option>
-      <option value="Saturday">שבת</option>
+      <option value="Sunday">Sunday</option>
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
       </select>
       <hr/>
       <input type='checkbox' name='allDay' value="True" />
-      <label for="allDay">כל יום</label>
+      <label for="allDay">All Day</label>
       <hr/>
-      <h1>:שעת התחלה</h1>
+      <h1>Start:</h1>
       <input type='time' name="start" value=""/>
       <hr/>
-      <h1>:שעת סיום </h1>
+      <h1> End: </h1>
       <input type='time' name="end" value=""/>
       <hr/>
-      <button>בצע</button>
+      <button style="background-color: rgb(91, 187, 91); border-radius: 5px;">Send</button>
       </form>
       <tbody>
-      <a href='AllSetting.php'>לכל ההגדרות</a>
-      <a href='IsActive.php'>סטטוס</a>
-      <a href='Easy.php'>ההזנה מיידית</a>
+      <a href='AllSetting.php'>All Settings</a>
+      <a href='IsActive.php'>Is Active</a>
+      <a href='Easy.php'>Easy</a>
+      <a href='StartPage.php'>Start Page</a>
       </tbody>
         </div>
 </body>
